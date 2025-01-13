@@ -2,8 +2,7 @@
 using namespace std;
 #include <ctime>
 #include <iomanip>
-
-
+#include <limits>
 int *Tab;
 
 void Losuj(int n){
@@ -21,7 +20,7 @@ void Podaj(int n){
 		cin>>liczba;
 		while(liczba>=n||cin.fail()){
 			cin.clear();
-			cin.ignore();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout<<"zle podano liczbe, podaj jeszcze raz"<<endl;
 			cin>>liczba;
 		}
@@ -29,6 +28,37 @@ void Podaj(int n){
 	}
 }
 
+void BruteForce(int n){
+	int L[n];
+	int l;
+	bool powtarzanie=false;
+	for(int i=0; i<n; i++) L[i]=0;
+	
+	for(int i=0; i<n; i++)
+	{
+		for(int t=i+1; t<n; t++)
+		{
+			if(Tab[i]==Tab[t]){
+//				L[i]=Tab[i];
+//				break;
+				for(int z=0; z<i; z++){
+					if(L[z]==Tab[i]) powtarzanie=true;
+				}
+				if(powtarzanie==false){
+					L[i]=Tab[i];	
+				}
+				else powtarzanie=false;
+			}	
+		}
+	}
+	cout<<endl<<"elementy powtarzajace sie:\t";
+	for(int i=0; i<n; i++)
+	{
+		if(L[i]!=0) cout<<Tab[i]<<" ";
+		//cout<<L[i]<<" ";
+	}
+	
+}
 
 int main(){
 	string answer;
@@ -37,8 +67,8 @@ int main(){
 	cin>>n;
 	while(cin.fail()){
 		cin.clear();
-		cin.ignore();
-		cout<<"zle podano liczbe, podaj jeszcze raz";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout<<"zle podano liczbe, podaj jeszcze raz"<<endl;
 		cin>>n;
 	}
 	Tab = new int [n];
@@ -47,7 +77,7 @@ int main(){
 	if(answer=="tak") Losuj(n);
 	else Podaj(n);
 	
-	
+	BruteForce(n);	
 	
 	delete [] Tab;
 	return 0;
