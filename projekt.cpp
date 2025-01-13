@@ -13,32 +13,39 @@ void Losuj(int n){
 		cout<<Tab[i]<<" ";
 	}
 }
+
 void Podaj(int n){
 	int liczba;
 	for(int i=0; i<n; i++){
-		cout<<"podaj odpowiednia liczbe(od 1 do "<<n-1<<")"<<endl;
+		cout<<"Podaj odpowiednia liczbe(od 1 do "<<n-1<<")"<<endl;
 		cin>>liczba;
-		while(liczba>n-1){
-			cout<<"zle podana liczba, podaj jeszcze raz: "<<endl;
+		while(liczba>=n||cin.fail()){
+			cin.clear();
+			cin.ignore();
+			cout<<"zle podano liczbe, podaj jeszcze raz"<<endl;
 			cin>>liczba;
 		}
 		Tab[i]=liczba;
 	}
 }
 
+
 int main(){
 	string answer;
 	int n;
 	cout<<"Podaj n: "<<endl;
 	cin>>n;
+	while(cin.fail()){
+		cin.clear();
+		cin.ignore();
+		cout<<"zle podano liczbe, podaj jeszcze raz";
+		cin>>n;
+	}
 	Tab = new int [n];
 	cout<<"Losowac liczby?(tak/nie)"<<endl;
 	cin>>answer;
 	if(answer=="tak") Losuj(n);
 	else Podaj(n);
-//	for(int i=0; i<n;i++){
-//		cout<<Tab[i]<<" ";
-//	}
 	
 	
 	
