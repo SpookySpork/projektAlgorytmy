@@ -30,60 +30,47 @@ void GetNumbersFromUser(int n){//elementy do tablicy przypisuje uzytkownik
 }
 
 void BruteForce(int n){//pierwszy algorytm
-	int L[n];//tablica zawierajaca powtarzajace sie liczby
-	bool powtarzanie=false;
-	for(int i=0; i<n-1; i++) L[i]=0;//poczatkowo wszystkie elementy tablicy L sa rowne 0
+	bool L[n];//tablica zawierajaca powtarzajace sie liczby
+	for(int i=0; i<n-1; i++) L[i]=false;//poczatkowo wszystkie elementy tablicy L sa rowne 0
 	
 	for(int i=0; i<n; i++)//sprawdzam kazdy element z tablicy Tab
 	{
 		for(int t=i+1; t<n; t++)//z kazdym elementem ktory wystepuje dalej w tablicy(np. element 1 z 2,3 i 4, nie ma potrzeby sprawdzania 1 z 1, czy 2 z 1(jest tym samym co 1 z 2))
 		{
 			if(Tab[i]==Tab[t]){// jezeli elementy sa sobie rowne
-				if(L[Tab[i]-1]!=Tab[i])//sprawdzam czy element juz jest zapisany jako duplikat
+				if(L[Tab[i]-1]!=Tab[i])//sprawdzam czy element juz jest zapisany jako duplikat w tablicy L,
 				{
-					L[Tab[i]-1]=1;	
-				}
-//			
-//			
-//			
-//			
-//				for(int z=0; z<i; z++){//sprawdzam czy dana liczba juz nie zostala oznaczona jako duplikat
-//					if(L[z]==Tab[i]) powtarzanie=true;//
-//				}
-//				if(powtarzanie==false){
-//					L[i]=Tab[i];	
-//				}
-//				else powtarzanie=false;
-			}	
-		}
+					L[Tab[i]-1]=true;// jezeli nie, zapisuje element na pozycji o 1 mniejszy niz jego wartosc, przez to, na indeksie 0 zapisywana jest 1, na 1 zapisywana jest 2 itd.
+					//stad wiem, ze jezeli L[k]==true, oznacza to, ze w tablicy Tab istnieje wiecej niz jedna liczba o wartosci k+1
+				}	
+			}
+		}	
 	}
 	cout<<endl<<"elementy powtarzajace sie: ";
 	for(int i=0; i<n; i++)
 	{
-		if(L[i]!=0) cout<<i+1<<" ";
+		if(L[i]==true) cout<<i+1<<" ";
 	}
 	
 }
 
-void BetterBruteForce(int n)
+void BetterBruteForce(int n)//drugi algorytm
 {
-	int L[n-1];
-	for(int i=0; i<n-1; i++) L[i]=0;
+	int L[n-1];//tablica L ma tyle elementow, ile wartosci moga przyjmowac elementy tablicy Tab
+	for(int i=0; i<n-1; i++) L[i]=0;//poczatkowo, kazdy element L jest rowny 0
 		
-	for(int i=1; i<n-1; i++)
+	for(int i=1; i<n-1; i++)//porownuje kazda wartosc ktora moze wystepowac w tablicy Tab
 	{
-		for(int t=0; t<n; t++){
-			if(i==Tab[t]) L[i-1]++;
+		for(int t=0; t<n; t++){//z kazda wartoscia tablicy Tab
+			if(i==Tab[t]) L[i]++;//jezeli i jest rowne Tab[t],  
 		}
 	}
 	
 	for(int i=0; i<n; i++)
 	{
-		if(L[i]>1) cout<<"liczba "<<i+1<<" pojawila sie "<<L[i]<<" razy"<<endl;
+		if(L[i]>1) cout<<"liczba "<<i<<" pojawila sie "<<L[i]<<" razy"<<endl;
 	}
 }
-
-
 
 int main(){
 	string answer;
@@ -102,8 +89,8 @@ int main(){
 	if(answer=="tak") GetRandomNumbers(n);
 	else GetNumbersFromUser(n);
 	
-	BruteForce(n);
-	//BetterBruteForce(n);	
+	//BruteForce(n);
+	BetterBruteForce(n);	
 	
 	delete [] Tab;
 	return 0;
