@@ -5,7 +5,7 @@ using namespace std;
 #include <limits>
 int *Tab;
 
-void Losuj(int n){
+void GetRandomNumbers(int n){
 	srand(time(NULL));
 	for(int i=0; i<n;i++){
 		Tab[i]=rand()%(n-1) + 1;
@@ -13,7 +13,7 @@ void Losuj(int n){
 	}
 }
 
-void Podaj(int n){
+void GetNumbersFromUser(int n){
 	int liczba;
 	for(int i=0; i<n; i++){
 		cout<<"Podaj odpowiednia liczbe(od 1 do "<<n-1<<")"<<endl;
@@ -30,7 +30,6 @@ void Podaj(int n){
 
 void BruteForce(int n){
 	int L[n];
-	int l;
 	bool powtarzanie=false;
 	for(int i=0; i<n; i++) L[i]=0;
 	
@@ -39,8 +38,6 @@ void BruteForce(int n){
 		for(int t=i+1; t<n; t++)
 		{
 			if(Tab[i]==Tab[t]){
-//				L[i]=Tab[i];
-//				break;
 				for(int z=0; z<i; z++){
 					if(L[z]==Tab[i]) powtarzanie=true;
 				}
@@ -51,14 +48,30 @@ void BruteForce(int n){
 			}	
 		}
 	}
-	cout<<endl<<"elementy powtarzajace sie:\t";
+	cout<<endl<<"elementy powtarzajace sie: ";
 	for(int i=0; i<n; i++)
 	{
 		if(L[i]!=0) cout<<Tab[i]<<" ";
-		//cout<<L[i]<<" ";
 	}
 	
 }
+
+void BetterBruteForce(int n)
+{
+	int L[n-1];
+	for(int i=0; i<n-1; i++) L[i]=0;
+		
+	for(int i=1; i<n-1; i++)
+	{
+		for(int t=0; t<n; t++){
+			if(i==L[t]) L[i-1]++;
+		}
+	}
+	cout<<endl;
+	for(int i=0; i<n; i++) cout<<L[i]<<" ";
+}
+
+
 
 int main(){
 	string answer;
@@ -74,10 +87,11 @@ int main(){
 	Tab = new int [n];
 	cout<<"Losowac liczby?(tak/nie)"<<endl;
 	cin>>answer;
-	if(answer=="tak") Losuj(n);
-	else Podaj(n);
+	if(answer=="tak") GetRandomNumbers(n);
+	else GetNumbersFromUser(n);
 	
-	BruteForce(n);	
+	//BruteForce(n);
+	BetterBruteForce(n);	
 	
 	delete [] Tab;
 	return 0;
