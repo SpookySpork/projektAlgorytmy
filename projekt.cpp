@@ -54,22 +54,25 @@ void BruteForce(int n){//pierwszy algorytm
 	
 }
 
-void BetterBruteForce(int n)//drugi algorytm
-{
+void BetterBruteForce(int n){//drugi algorytm
 	int L[n-1];//tablica L ma tyle elementow, ile wartosci moga przyjmowac elementy tablicy Tab
-	for(int i=0; i<n-1; i++) L[i]=0;//poczatkowo, kazdy element L jest rowny 0
+	for(int i=0; i<n; i++) L[i]=0;//poczatkowo, kazdy element L jest rowny 0
+	//L[0] zawsze bedzie rowne 0, poniewaz wartosci Tab zaczynaja sie od 1, ale dzieki temu kod jest bardziej przejrzysty
+	
 		
-	for(int i=1; i<n-1; i++)//porownuje kazda wartosc ktora moze wystepowac w tablicy Tab
+	for(int i=1; i<n; i++)//porownuje kazda wartosc ktora moze wystepowac w tablicy Tab
 	{
 		for(int t=0; t<n; t++){//z kazda wartoscia tablicy Tab
-			if(i==Tab[t]) L[i]++;//jezeli i jest rowne Tab[t],  
+			if(i==Tab[t]) L[i]++;//jezeli i jest rowne Tab[t], L[i] zwiekszam o jeden, czyli zwiekszam liczbe wystapien wartosci i, jezeli liczba wystapien tej liczby bedzie wieksza od 1, wiemy ze jest to element powatrzajacy sie 
 		}
 	}
 	
+	cout<<endl<<"elementy powtarzajace sie: ";
 	for(int i=0; i<n; i++)
 	{
-		if(L[i]>1) cout<<"liczba "<<i<<" pojawila sie "<<L[i]<<" razy"<<endl;
+		if(L[i]>1) cout<<i<<" ";
 	}
+	cout<<endl;
 }
 
 int main(){
