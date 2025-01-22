@@ -11,6 +11,7 @@ void GetRandomNumbers(int n){
 		Tab[i]=rand()%(n-1) + 1;
 		cout<<Tab[i]<<" ";
 	}
+	cout<<endl;
 }
 
 void GetNumbersFromUser(int n){
@@ -64,11 +65,14 @@ void BetterBruteForce(int n)
 	for(int i=1; i<n-1; i++)
 	{
 		for(int t=0; t<n; t++){
-			if(i==L[t]) L[i-1]++;
+			if(i==Tab[t]) L[i-1]++;
 		}
 	}
-	cout<<endl;
-	for(int i=0; i<n; i++) cout<<L[i]<<" ";
+	
+	for(int i=0; i<n; i++)
+	{
+		if(L[i]>1) cout<<"liczba "<<i+1<<"pojawila sie "<<L[i]<<" razy"<<endl;
+	}
 }
 
 
