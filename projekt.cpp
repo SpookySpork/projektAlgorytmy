@@ -5,21 +5,21 @@ using namespace std;
 #include <limits>
 int *Tab;
 
-void GetRandomNumbers(int n){
+void GetRandomNumbers(int n){//losuje elementy do tablicy
 	srand(time(NULL));
 	for(int i=0; i<n;i++){
-		Tab[i]=rand()%(n-1) + 1;
-		cout<<Tab[i]<<" ";
+		Tab[i]=rand()%(n-1)+1;//losuje liczby od 1 do n-1(rand()%(n) zaczyna losowanie od 0, stad powiekszenie wylosowanej liczby o 1
+		cout<<Tab[i]<<" ";//wypisuje wylosowane elementy
 	}
 	cout<<endl;
 }
 
-void GetNumbersFromUser(int n){
+void GetNumbersFromUser(int n){//elementy do tablicy przypisuje uzytkownik
 	int liczba;
 	for(int i=0; i<n; i++){
 		cout<<"Podaj odpowiednia liczbe(od 1 do "<<n-1<<")"<<endl;
 		cin>>liczba;
-		while(liczba>=n||cin.fail()){
+		while(liczba>=n||cin.fail()){//jezeli zle podano liczbe, uzytkownik musi podac ja ponownie
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout<<"zle podano liczbe, podaj jeszcze raz"<<endl;
@@ -29,30 +29,38 @@ void GetNumbersFromUser(int n){
 	}
 }
 
-void BruteForce(int n){
-	int L[n];
+void BruteForce(int n){//pierwszy algorytm
+	int L[n];//tablica zawierajaca powtarzajace sie liczby
 	bool powtarzanie=false;
-	for(int i=0; i<n; i++) L[i]=0;
+	for(int i=0; i<n-1; i++) L[i]=0;//poczatkowo wszystkie elementy tablicy L sa rowne 0
 	
-	for(int i=0; i<n; i++)
+	for(int i=0; i<n; i++)//sprawdzam kazdy element z tablicy Tab
 	{
-		for(int t=i+1; t<n; t++)
+		for(int t=i+1; t<n; t++)//z kazdym elementem ktory wystepuje dalej w tablicy(np. element 1 z 2,3 i 4, nie ma potrzeby sprawdzania 1 z 1, czy 2 z 1(jest tym samym co 1 z 2))
 		{
-			if(Tab[i]==Tab[t]){
-				for(int z=0; z<i; z++){
-					if(L[z]==Tab[i]) powtarzanie=true;
+			if(Tab[i]==Tab[t]){// jezeli elementy sa sobie rowne
+				if(L[Tab[i]-1]!=Tab[i])//sprawdzam czy element juz jest zapisany jako duplikat
+				{
+					L[Tab[i]-1]=1;	
 				}
-				if(powtarzanie==false){
-					L[i]=Tab[i];	
-				}
-				else powtarzanie=false;
+//			
+//			
+//			
+//			
+//				for(int z=0; z<i; z++){//sprawdzam czy dana liczba juz nie zostala oznaczona jako duplikat
+//					if(L[z]==Tab[i]) powtarzanie=true;//
+//				}
+//				if(powtarzanie==false){
+//					L[i]=Tab[i];	
+//				}
+//				else powtarzanie=false;
 			}	
 		}
 	}
 	cout<<endl<<"elementy powtarzajace sie: ";
 	for(int i=0; i<n; i++)
 	{
-		if(L[i]!=0) cout<<Tab[i]<<" ";
+		if(L[i]!=0) cout<<i+1<<" ";
 	}
 	
 }
@@ -71,7 +79,7 @@ void BetterBruteForce(int n)
 	
 	for(int i=0; i<n; i++)
 	{
-		if(L[i]>1) cout<<"liczba "<<i+1<<"pojawila sie "<<L[i]<<" razy"<<endl;
+		if(L[i]>1) cout<<"liczba "<<i+1<<" pojawila sie "<<L[i]<<" razy"<<endl;
 	}
 }
 
@@ -94,8 +102,8 @@ int main(){
 	if(answer=="tak") GetRandomNumbers(n);
 	else GetNumbersFromUser(n);
 	
-	//BruteForce(n);
-	BetterBruteForce(n);	
+	BruteForce(n);
+	//BetterBruteForce(n);	
 	
 	delete [] Tab;
 	return 0;
