@@ -46,12 +46,12 @@ void BruteForce(int n){//pierwszy algorytm
 			}
 		}	
 	}
-	cout<<endl<<"elementy powtarzajace sie: ";
+	cout<<"elementy powtarzajace sie: ";
 	for(int i=0; i<n; i++)
 	{
 		if(L[i]==true) cout<<i+1<<" ";
 	}
-	
+	cout<<endl;
 }
 
 void BetterBruteForce(int n){//drugi algorytm
@@ -59,15 +59,21 @@ void BetterBruteForce(int n){//drugi algorytm
 	for(int i=0; i<n; i++) L[i]=0;//poczatkowo, kazdy element L jest rowny 0
 	//L[0] zawsze bedzie rowne 0, poniewaz wartosci Tab zaczynaja sie od 1, ale dzieki temu kod jest bardziej przejrzysty
 	
-		
-	for(int i=1; i<n; i++)//porownuje kazda wartosc ktora moze wystepowac w tablicy Tab
-	{
-		for(int t=0; t<n; t++){//z kazda wartoscia tablicy Tab
-			if(i==Tab[t]) L[i]++;//jezeli i jest rowne Tab[t], L[i] zwiekszam o jeden, czyli zwiekszam liczbe wystapien wartosci i, jezeli liczba wystapien tej liczby bedzie wieksza od 1, wiemy ze jest to element powatrzajacy sie 
-		}
+	
+	for(int i=0; i<n; i++){
+		L[Tab[i]]++;
 	}
 	
-	cout<<endl<<"elementy powtarzajace sie: ";
+	
+		
+//	for(int i=1; i<n; i++)//porownuje kazda wartosc ktora moze wystepowac w tablicy Tab
+//	{
+//		for(int t=0; t<n; t++){//z kazda wartoscia tablicy Tab
+//			if(i==Tab[t]) L[i]++;//jezeli i jest rowne Tab[t], L[i] zwiekszam o jeden, czyli zwiekszam liczbe wystapien wartosci i, jezeli liczba wystapien tej liczby bedzie wieksza od 1, wiemy ze jest to element powatrzajacy sie 
+//		}
+//	}
+	
+	cout<<"elementy powtarzajace sie: ";
 	for(int i=0; i<n; i++)
 	{
 		if(L[i]>1) cout<<i<<" ";
@@ -89,11 +95,27 @@ int main(){
 	Tab = new int [n];
 	cout<<"Losowac liczby?(tak/nie)"<<endl;
 	cin>>answer;
+	
+	int t;
+	cout<<"ile testow? "<<endl;
+	cin>>t;
+	
 	if(answer=="tak") GetRandomNumbers(n);
 	else GetNumbersFromUser(n);
 	
-	//BruteForce(n);
-	BetterBruteForce(n);	
+	for(int i=0; i<t; i++)
+	{
+		cout<<"funkcja 1"<<endl;
+		BruteForce(n);
+		cout<<"funkcja 2"<<endl;
+		BetterBruteForce(n);
+		cout<<endl;
+		if(i+1<t)
+		{
+			if(answer=="tak") GetRandomNumbers(n);
+			else GetNumbersFromUser(n);	
+		}
+	}	
 	
 	delete [] Tab;
 	return 0;
