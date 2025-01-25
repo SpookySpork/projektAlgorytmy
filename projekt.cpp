@@ -4,14 +4,14 @@ using namespace std;
 #include <iomanip>
 #include <limits>
 #include <chrono>
-using namespace chrono;
+using namespace std::chrono;
 int *Tab;
 
 void GetRandomNumbers(int n){//losuje elementy do tablicy
 	srand(time(NULL));
 	for(int i=0; i<n;i++){
 		Tab[i]=rand()%(n-1)+1;//losuje liczby od 1 do n-1(rand()%(n) zaczyna losowanie od 0, stad powiekszenie wylosowanej liczby o 1
-		cout<<Tab[i]<<" ";//wypisuje wylosowane elementy
+		//cout<<Tab[i]<<" ";//wypisuje wylosowane elementy
 	}
 	cout<<endl;
 }
@@ -54,7 +54,7 @@ void BruteForce(int n){//pierwszy algorytm
 	cout<<endl;
 }
 
-void BetterFunction(int n){//drugi algorytm
+void OptimizedFunction(int n){//drugi algorytm
 	int L[n-1];//tablica L ma tyle elementow, ile wartosci moga przyjmowac elementy tablicy Tab
 	for(int i=0; i<n; i++) L[i]=0;//poczatkowo, kazdy element L jest rowny 0
 	//L[0] zawsze bedzie rowne 0, poniewaz wartosci Tab zaczynaja sie od 1 (mozna wartosci przypisywac do indeksu o jeden mniejszy od wartosci, ale przez to kod bylby mniej przejrzysty)
@@ -64,47 +64,45 @@ void BetterFunction(int n){//drugi algorytm
 		L[Tab[i]]++;//indeksy tablicy L odpowiadaja wartosciom jakie moga przyjmowac elementy Tab. Sprawdzam jakie elementy pojawiaja sie w Tab i zapisuje ich czestosc wystepywania w tablicy L
 	}
 	
-	cout<<"elementy powtarzajace sie: ";
+//	cout<<"elementy powtarzajace sie: ";
 	for(int i=0; i<n; i++)
 	{
-		if(L[i]>1) cout<<i<<" ";//jezeli wartosc w L jest wieksza od jeden, to znaczy ze wartosc w Tab rowna indeksowi pojawiala sie wielokrotnie
+		if(L[i]>1); //cout<<i<<" ";//jezeli wartosc w L jest wieksza od jeden, to znaczy ze wartosc w Tab rowna indeksowi pojawiala sie wielokrotnie
 	}
-	cout<<endl;
 }
 
 int main(){
-	string answer;
-	int n=0;
-	cout<<"Podaj n: "<<endl;
-	cin>>n;
-	Tab = new int [n];
-	cout<<"Losowac liczby?(tak/nie)"<<endl;
-	cin>>answer;
-	if(answer=="tak") GetRandomNumbers(n);
-	else GetNumbersFromUser(n);
-
-	cout<<"funkcja 1:"<<endl;
-	BruteForce(n);
-	cout<<"funkcja 2: "<<endl;
-	BetterFunction(n);
+//	string answer;
+//	int n=0;
+//	cout<<"Podaj n: "<<endl;
+//	cin>>n;
+//	Tab = new int [n];
+//	cout<<"Losowac liczby?(tak/nie)"<<endl;
+//	cin>>answer;
+//	if(answer=="tak") GetRandomNumbers(n);
+//	else GetNumbersFromUser(n);
+//
+//	cout<<"funkcja 1:"<<endl;
+//	BruteForce(n);
+//	cout<<"funkcja 2: "<<endl;
+//	OptimizedFunction(n);
 
 //do testow wydajnosciowych:
-//
-//	GetRandomNumbers(n);
-//	
-//	high_resolution_clock::time_point begin1 = high_resolution_clock::now();
-//	BruteForce(n);
-//	high_resolution_clock::time_point end1 = high_resolution_clock::now();
-//	double duration1=duration_cast<microseconds>(end1 - begin1).count();
-//	
-//	high_resolution_clock::time_point begin2 = high_resolution_clock::now();
-//	BetterFunction(n);
-//	high_resolution_clock::time_point end2 = high_resolution_clock::now();
-//	double duration2=duration_cast<microseconds>(end2 - begin2).count();
-//	cout<<"czas wykonywania algorytmu 1: "<<duration1/1000000 << " sekund" << endl;
-//	cout<<"czas wykonywania algorytmu 2: "<<duration_cast<nanoseconds>(end2 - begin2).count()<< " mikro sekund" << endl;
 
+	int n=500000;
+	Tab = new int [n];
+	GetRandomNumbers(n);
 	
+	high_resolution_clock::time_point start1 = high_resolution_clock::now();
+//	BruteForce(n);
+	for(int i=0; i<100;i++){
+		OptimizedFunction(n);	
+	}
+	high_resolution_clock::time_point end1 = high_resolution_clock::now();
+	double duration=duration_cast<microseconds>(end1 - start1).count();
+	
+	cout<<"czas trwania funkcji 1: "<< (duration)/1000000<<"[s]"<<endl;
+	cout<<"n= "<<n*100<<endl;
 	delete [] Tab;
 	
 	return 0;
