@@ -42,9 +42,9 @@ void BruteForce(int n)
 	
 	for(int i=0; i<n-1; i++)//sprawdzam kazdy element z tablicy Tab(nie sprawdzam ostatniego elementu przez i, jest ono sprawdzane przez t. Jezeli i=n, j=n+1, co wychodzi poza wartosc tablicy)
 	{
-		for(int j=i+1; j<n; j++)//z kazdym elementem ktory wystepuje dalej w tablicy(np. element 1 z 2,3 i 4, nie ma potrzeby sprawdzania 1 z 1, czy 2 z 1(jest tym samym co 1 z 2))
+		for(int t=i+1; t<n; t++)//z kazdym elementem ktory wystepuje dalej w tablicy(np. element 1 z 2,3 i 4, nie ma potrzeby sprawdzania 1 z 1, czy 2 z 1(jest tym samym co 1 z 2))
 		{
-			if(Tab[i]==Tab[j])// jezeli elementy sa sobie rowne
+			if(Tab[i]==Tab[t])// jezeli elementy sa sobie rowne
 			{
 				L[Tab[i]]=true;//zapisuje wartosc true na pozycji rownej wartosci sprawdzonego elementu
 			}
@@ -85,6 +85,11 @@ int main(){
 	int n=0;
 	cout<<"Podaj n: "<<endl;
 	cin>>n;
+	while(n<2)
+	{
+		cout<<"n musi byc wieksze od 1, podaj jeszcze raz"<<endl;
+		cin>>n;
+	}
 	Tab = new int [n];
 	cout<<"Losowac liczby?(tak/nie)"<<endl;
 	cin>>answer;
